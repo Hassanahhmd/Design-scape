@@ -1,5 +1,5 @@
 // script.js
-// Minor interactive behaviours for the Hassuna Visuals site.
+// Minor interactive behaviours for the Design Scape Architecture site.
 
 document.addEventListener('DOMContentLoaded', () => {
   // Initialise testimonial slider
@@ -51,9 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const company = encodeURIComponent(form.company.value);
       const email = encodeURIComponent(form.email.value);
       const message = encodeURIComponent(form.message.value);
-      const reason = encodeURIComponent(
-        form.querySelector('input[name="reason"]:checked')?.value || ''
-      );
+      // Retrieve the selected reason from the drop‑down list. If none selected, default to empty string.
+      const reason = encodeURIComponent(form.reason?.value || '');
       const subject = encodeURIComponent(`New enquiry from ${form.name.value}`);
       const body = `Name: ${name}%0D%0ACompany: ${company}%0D%0AEmail: ${email}%0D%0AReason: ${reason}%0D%0A%0D%0A${message}`;
       // Redirect to mailto link; this opens the user's mail client with prefilled data

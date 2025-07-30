@@ -386,6 +386,22 @@ html, body {
   font-size: 0.9rem;
   color: var(--primary-color);
 }
+
+/* Style select elements in the contact form to match text inputs */
+.form-group select {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  background-color: #fff;
+}
+
+.form-group select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;

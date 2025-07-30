@@ -4,14 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- SEO meta tags -->
-    <meta name="description" content="Hassuna Visuals is a Cairo‑based architecture and interior design studio offering photorealistic 3D visualisation, modelling and immersive virtual tours. Transform your ideas into breathtaking spaces with our tailored design services." />
-    <meta name="keywords" content="architecture, interior design, 3D visualisation, architectural rendering, Cairo, Hassuna Visuals" />
-    <meta property="og:title" content="Hassuna Visuals – Architecture &amp; Interior Design" />
-    <meta property="og:description" content="Cairo‑based architect and interior designer creating functional, aesthetic spaces with photorealistic renders and virtual tours." />
+    <meta name="description" content="Design Scape Architecture is a Cairo‑based architecture and interior design studio offering photorealistic 3D visualisation, modelling and immersive virtual tours. Transform your ideas into breathtaking spaces with our tailored design services." />
+    <meta name="keywords" content="architecture, interior design, 3D visualisation, architectural rendering, Cairo, Design Scape Architecture" />
+    <meta property="og:title" content="Design Scape Architecture – Architecture &amp; Interior Design" />
+    <meta property="og:description" content="Cairo‑based architecture and interior design studio creating functional, aesthetic spaces with photorealistic renders and virtual tours." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://hassuna-visuals.com" />
     <meta property="og:image" content="project1.png" />
-    <title>Hassuna Visuals – Architectural Rendering &amp; 3D Visualization</title>
+    <title>Design Scape Architecture – Architectural Rendering &amp; 3D Visualization</title>
     <!--
       This website is inspired by the layout of v‑visualise.com but uses
       entirely original content and styling. None of the proprietary
@@ -33,7 +33,7 @@
     <!-- Header / Navigation -->
     <header class="header">
       <div class="container">
-        <div class="logo">Hassuna&nbsp;Visuals</div>
+        <div class="logo">Design&nbsp;Scape&nbsp;Architecture</div>
         <!-- Updated navigation anchors to reflect new sections -->
         <nav class="nav" id="nav">
           <a href="#portfolio">Portfolio</a>
@@ -75,6 +75,13 @@
         <div class="gallery-item">
           <!-- Updated with a photorealistic interior from Behance portfolio -->
           <img src="project3.png" alt="Contemporary living room interior" />
+        </div>
+        <!-- Additional images from Hassuna’s Behance portfolio, cropped to highlight details from the living room project -->
+        <div class="gallery-item">
+          <img src="behance1.png" alt="Living room detail – seating area and wall art" />
+        </div>
+        <div class="gallery-item">
+          <img src="behance2.png" alt="Living room detail – windows and lighting" />
         </div>
       </div>
       <div class="gallery-cta">
@@ -284,6 +291,7 @@
           <p><i class="fa-solid fa-envelope"></i>&nbsp;Hassanua4@gmail.com</p>
           <p><i class="fa-solid fa-map-marker-alt"></i>&nbsp;Cairo, Egypt</p>
         </div>
+        <!-- Professional contact form with drop‑down for reason of enquiry -->
         <form class="contact-form" id="contactForm">
           <div class="form-group">
             <label for="name">Name*</label>
@@ -302,21 +310,13 @@
             <textarea id="message" name="message" rows="5" required></textarea>
           </div>
           <div class="form-group full-width">
-            <label>Reason for contact*</label>
-            <div class="radio-group">
-              <label>
-                <input type="radio" name="reason" value="quote" required />
-                Request a Quote
-              </label>
-              <label>
-                <input type="radio" name="reason" value="general" required />
-                General Enquiry
-              </label>
-              <label>
-                <input type="radio" name="reason" value="other" required />
-                Other
-              </label>
-            </div>
+            <label for="reason">Reason for contact*</label>
+            <select id="reason" name="reason" required>
+              <option value="" disabled selected>-- Select an option --</option>
+              <option value="quote">Request a Quote</option>
+              <option value="general">General Enquiry</option>
+              <option value="other">Other</option>
+            </select>
           </div>
           <button type="submit" class="btn">Submit</button>
         </form>
@@ -326,7 +326,7 @@
     <!-- Footer -->
     <footer class="footer">
       <div class="footer-content">
-        <div class="footer-logo">Hassuna&nbsp;Visuals</div>
+        <div class="footer-logo">Design&nbsp;Scape&nbsp;Architecture</div>
         <div class="footer-nav">
           <a href="#portfolio">Portfolio</a>
           <a href="#services">Services</a>
@@ -334,7 +334,7 @@
           <a href="#blog">Blog</a>
           <a href="#contact">Contact</a>
         </div>
-        <p class="copyright">&copy; <span id="year"></span> Hassuna Visuals. All rights reserved.</p>
+        <p class="copyright">&copy; <span id="year"></span> Design Scape Architecture. All rights reserved.</p>
         <div class="footer-social">
           <a href="https://linkedin.com/in/hassanua" aria-label="LinkedIn profile"><i class="fa-brands fa-linkedin"></i></a>
           <a href="https://instagram.com/hassanua" aria-label="Instagram profile"><i class="fa-brands fa-instagram"></i></a>
