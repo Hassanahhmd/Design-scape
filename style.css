@@ -473,7 +473,11 @@ html, body {
   color: #555;
 }
 .about-image img {
+  /* Constrain the width of the about image so it doesn’t dominate the section on larger screens.
+     The image will never exceed 90% of its container and will be centered horizontally. */
   width: 100%;
+  max-width: 90%;
+  margin: 0 auto;
   border-radius: var(--border-radius);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
