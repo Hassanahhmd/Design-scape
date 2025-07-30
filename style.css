@@ -67,6 +67,14 @@ html, body {
   color: var(--accent-color);
 }
 
+/* Local info (time and weather) in header */
+.local-info {
+  margin-left: 1rem;
+  font-size: 0.8rem;
+  color: var(--primary-color);
+  white-space: nowrap;
+}
+
 /* Hero Section */
 .hero {
   position: relative;
