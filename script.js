@@ -46,10 +46,18 @@ document.addEventListener('DOMContentLoaded', () => {
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      // Simple form validation (fields are already required)
-      // Here you could integrate with a backend service or email client
-      alert('Thank you for reaching out! We will get back to you shortly.');
-      form.reset();
+      // Gather form data and compose an email using mailto. Encode to ensure special characters
+      const name = encodeURIComponent(form.name.value);
+      const company = encodeURIComponent(form.company.value);
+      const email = encodeURIComponent(form.email.value);
+      const message = encodeURIComponent(form.message.value);
+      const reason = encodeURIComponent(
+        form.querySelector('input[name="reason"]:checked')?.value || ''
+      );
+      const subject = encodeURIComponent(`New enquiry from ${form.name.value}`);
+      const body = `Name: ${name}%0D%0ACompany: ${company}%0D%0AEmail: ${email}%0D%0AReason: ${reason}%0D%0A%0D%0A${message}`;
+      // Redirect to mailto link; this opens the user's mail client with prefilled data
+      window.location.href = `mailto:Hassanua4@gmail.com?subject=${subject}&body=${body}`;
     });
   }
 });

@@ -434,6 +434,104 @@ html, body {
 .footer-nav a:hover {
   color: var(--accent-color);
 }
+
+.footer-social {
+  margin-top: 0.5rem;
+}
+.footer-social a {
+  color: var(--light-text);
+  margin: 0 0.5rem;
+  font-size: 1.2rem;
+  transition: color var(--transition);
+}
+.footer-social a:hover {
+  color: var(--accent-color);
+}
+
+/* About Section */
+.about {
+  padding: 4rem 1rem;
+  background: var(--secondary-color);
+  color: var(--primary-color);
+}
+.about-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  align-items: center;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+.about-text h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+.about-text p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+.about-image img {
+  width: 100%;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Blog Section */
+.blog {
+  padding: 4rem 1rem;
+  background: #fff;
+  color: var(--primary-color);
+}
+.blog h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+.blog-post {
+  background: var(--secondary-color);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.blog-post h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+.blog-meta {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+.blog-post p {
+  flex: 1;
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .about-image {
+    order: -1;
+  }
+}
 .copyright {
   font-size: 0.8rem;
   color: #bbb;
