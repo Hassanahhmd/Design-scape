@@ -33,7 +33,10 @@
     <!-- Header / Navigation -->
     <header class="header">
       <div class="container">
-        <div class="logo">Design&nbsp;Scape&nbsp;Architecture</div>
+        <div class="logo">
+          <img src="logo.png" alt="Design Scape logo" class="logo-icon" />
+          <div class="logo-title">Design&nbsp;Scape&nbsp;Architecture</div>
+        </div>
         <!-- Updated navigation anchors to reflect new sections -->
         <nav class="nav" id="nav">
           <a href="#portfolio">Portfolio</a>
@@ -287,44 +290,49 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact">
-      <h2>Get in Touch</h2>
-      <div class="contact-wrapper">
-        <div class="contact-info">
-          <h3>Contact Details</h3>
-          <p><i class="fa-solid fa-phone"></i>&nbsp;+20 123 456 789</p>
-          <p><i class="fa-solid fa-envelope"></i>&nbsp;Hassanua4@gmail.com</p>
-          <p><i class="fa-solid fa-map-marker-alt"></i>&nbsp;Cairo, Egypt</p>
+    <section id="contact" class="contact professional">
+      <h2>Let's Visualise It</h2>
+      <div class="contact-wrapper professional-layout">
+        <!-- Image column showcasing an elegant interior -->
+        <div class="contact-image">
+          <img src="contact.jpg" alt="Elegant wardrobe and dressing area designed by Hassuna" />
+          <div class="image-overlay">
+            <p>Bring your vision to life with us</p>
+          </div>
         </div>
-        <!-- Professional contact form with drop‑down for reason of enquiry -->
-        <form class="contact-form" id="contactForm">
-          <div class="form-group">
-            <label for="name">Name*</label>
-            <input type="text" id="name" name="name" required />
+        <!-- Card column with contact details and form -->
+        <div class="contact-card">
+          <div class="contact-info">
+            <h3>Contact Details</h3>
+            <p><i class="fa-solid fa-phone"></i>&nbsp;+20 123 456 789</p>
+            <p><i class="fa-solid fa-envelope"></i>&nbsp;Hassanua4@gmail.com</p>
+            <p><i class="fa-solid fa-map-marker-alt"></i>&nbsp;Cairo, Egypt</p>
           </div>
-          <div class="form-group">
-            <label for="company">Company Name</label>
-            <input type="text" id="company" name="company" />
-          </div>
-          <div class="form-group">
-            <label for="email">Email*</label>
-            <input type="email" id="email" name="email" required />
-          </div>
-          <div class="form-group full-width">
-            <label for="message">Message*</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
-          </div>
-          <div class="form-group full-width">
-            <label for="reason">Reason for contact*</label>
-            <select id="reason" name="reason" required>
-              <option value="" disabled selected>-- Select an option --</option>
-              <option value="quote">Request a Quote</option>
-              <option value="general">General Enquiry</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <button type="submit" class="btn">Submit</button>
-        </form>
+          <!-- Professional contact form with drop‑down for reason of enquiry -->
+          <form class="contact-form" id="contactForm">
+            <div class="form-group">
+              <input type="text" id="name" name="name" placeholder="Your name*" required />
+            </div>
+            <div class="form-group">
+              <input type="text" id="company" name="company" placeholder="Your company name" />
+            </div>
+            <div class="form-group">
+              <input type="email" id="email" name="email" placeholder="Your email address*" required />
+            </div>
+            <div class="form-group full-width">
+              <textarea id="message" name="message" placeholder="Enter your message*" rows="5" required></textarea>
+            </div>
+            <div class="form-group full-width">
+              <select id="reason" name="reason" required>
+                <option value="" disabled selected>-- Select an option --</option>
+                <option value="quote">Request a Quote</option>
+                <option value="general">General Enquiry</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <button type="submit" class="btn">Submit</button>
+          </form>
+        </div>
       </div>
     </section>
 
