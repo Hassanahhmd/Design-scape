@@ -83,14 +83,19 @@
     <section id="tour" class="tour fade-in">
       <h2>360° Virtual Tour</h2>
       <p>Step inside and explore the space with our interactive 360° viewer.</p>
-      <div class="tour-container">
-        <!-- We use A‑Frame to embed a 360° scene. The walk‑in closet image
-             serves as an equirectangular texture. Visitors can click and
-             drag to look around inside the space. -->
-        <a-scene embedded>
-          <a-sky src="closet360.jpg" rotation="0 -90 0"></a-sky>
-        </a-scene>
-      </div>
+        <div class="tour-container">
+          <!-- Embed the 360° tour from Kuula. Visitors can click and drag to explore the space.
+               Using an iframe allows us to display the interactive panorama without copying any
+               proprietary code from the service. -->
+          <iframe
+            src="https://kuula.co/share/51P0j?logo=1&info=1&fs=1&vr=0&zoom=1&autorotate=0.79&thumbs=1&alpha=0.60&inst=0"
+            width="100%"
+            height="500"
+            style="border: none;"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
     </section>
 
     <!-- Portfolio Section -->
@@ -156,25 +161,26 @@
     <section id="about" class="about fade-in">
       <div class="container about-container">
         <div class="about-text">
-          <h2>About DESIGN SCAPE</h2>
-          <p>Hassan Ahmed is an accomplished architect and interior designer based in Cairo,
-            Egypt. Driven by an unwavering passion for creating spaces that seamlessly blend
-            functionality and aesthetics, he has cultivated a reputation for turning ordinary
-            environments into captivating experiences. With a keen eye for detail and a
-            penchant for innovative design solutions, Hassan works closely with clients to
-            translate their visions into beautifully crafted realities.
+          <h2>About Design Scape</h2>
+          <p>
+            Design&nbsp;Scape is a Cairo‑based studio that turns ideas into built reality. We weave
+            architecture, interior design and urban planning into cohesive experiences—balancing
+            aesthetics, function and sustainability. From expressive façades to finely detailed
+            interiors, every project starts with deep client dialogue, rigorous site analysis and
+            clear 3D visualisation.
           </p>
           <p>
-            From bespoke residential interiors to ambitious commercial projects, every design
-            is tailored to the client's unique needs. When he's not designing, you can find
-            him exploring new materials, experimenting with lighting, and staying ahead of
-            architectural trends. Let's build something remarkable together.
+            Our team leverages AutoCAD, Revit, 3ds&nbsp;Max and Corona Renderer to deliver documents
+            that contractors trust and renders that win approvals fast. Whether it’s a boutique
+            café, a family apartment or a mixed‑use development, Design&nbsp;Scape manages the full
+            journey: concept, technical drawings, permitting, supervision and post‑handover
+            support. The result: spaces that feel effortless, perform brilliantly and elevate
+            daily life—proof that smart design shapes a better future.
           </p>
         </div>
         <div class="about-image">
-          <!-- Replaced the abstract artwork with a realistic interior photo to better represent Hassan’s design work.
-               This image showcases a finished living room project and adds authenticity to the About section. -->
-          <img src="project3.png" alt="Modern interior designed by Hassan" />
+          <!-- Use a realistic interior photo to represent Design Scape’s portfolio. -->
+          <img src="project3.png" alt="Modern interior designed by Design Scape" />
         </div>
       </div>
     </section>
