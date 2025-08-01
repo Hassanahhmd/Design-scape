@@ -179,4 +179,79 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
+
+  // Scroll progress bar: update width based on scroll position
+  const scrollProgress = document.getElementById('scrollProgress');
+  if (scrollProgress) {
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+      const scrollable = docHeight - winHeight;
+      const progress = scrollable > 0 ? (scrollTop / scrollable) * 100 : 0;
+      scrollProgress.style.width = `${progress}%`;
+    });
+  }
+
+  // Dark mode toggle: persist user preference and toggle data-theme
+  const themeToggle = document.getElementById('themeToggle');
+  const body = document.body;
+  if (themeToggle) {
+    // Load theme preference from localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      body.setAttribute('data-theme', savedTheme);
+      // Update icon to reflect current theme
+      themeToggle.querySelector('i').classList.toggle('fa-moon', savedTheme !== 'dark');
+      themeToggle.querySelector('i').classList.toggle('fa-sun', savedTheme === 'dark');
+    }
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = body.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      body.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      // Toggle icon classes
+      const icon = themeToggle.querySelector('i');
+      if (newTheme === 'dark') {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      }
+    });
+  }
+
+  // Typewriter effect for hero tagline
+  const typewriterEl = document.getElementById('typewriter');
+  if (typewriterEl) {
+    const words = [
+      'Inspiring Spaces',
+      'Innovative Designs',
+      'Immersive Experiences'
+    ];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function type() {
+      const currentWord = words[wordIndex];
+      const visibleText = isDeleting
+        ? currentWord.substring(0, charIndex--)
+        : currentWord.substring(0, charIndex++);
+      typewriterEl.textContent = visibleText;
+      const baseDelay = 120;
+      let timeout = isDeleting ? baseDelay / 2 : baseDelay;
+      if (!isDeleting && charIndex === currentWord.length) {
+        timeout = 2000; // Pause before deleting
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        timeout = 500;
+      }
+      setTimeout(type, timeout);
+    }
+    type();
+  }
 });
