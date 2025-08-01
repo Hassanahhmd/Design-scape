@@ -217,14 +217,13 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  /* Use a gradient to avoid relying on remote images */
-  background: linear-gradient(135deg, #1d1d1d 0%, #3a3a3a 100%);
+  /* Use a photorealistic interior image for the hero background. The
+     reception render from Hassan’s portfolio provides a welcoming
+     first impression and better context than a simple gradient. The
+     fixed attachment creates a subtle parallax effect as visitors
+     scroll【879249934176153†L158-L166】. */
+  background: url('reception.png') center/cover no-repeat fixed;
   z-index: 0;
-
-  /* Parallax effect: fix the background so it moves at a different
-     speed than the foreground content, creating depth as visitors
-     scroll【879249934176153†L158-L176】. */
-  background-attachment: fixed;
 }
 .hero-overlay {
   position: absolute;
@@ -674,6 +673,36 @@ html, body {
   .contact-card {
     padding: 1.5rem;
   }
+}
+
+/* 360° Virtual Tour Styles
+   The tour section contains an embedded A‑Frame scene that allows
+   visitors to explore a space interactively. We set an explicit height
+   on the container so the viewer fills the available space on both
+   desktop and mobile. */
+.tour {
+  padding: 4rem 1rem;
+  background: var(--secondary-color);
+  text-align: center;
+}
+.tour h2 {
+  margin-bottom: 0.5rem;
+}
+.tour p {
+  margin-bottom: 2rem;
+}
+.tour-container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  height: 500px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+.tour-container a-scene {
+  width: 100%;
+  height: 100%;
 }
 
 /* Footer */

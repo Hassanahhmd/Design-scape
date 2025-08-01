@@ -29,6 +29,9 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
+    <!-- A‑Frame library for the 360° virtual tour -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
   </head>
   <body>
     <!-- Scroll progress bar (shows how far down the page you are) -->
@@ -73,6 +76,20 @@
           and interior design services.
         </p>
         <a href="#contact" class="btn">Book a Consultation</a>
+      </div>
+    </section>
+
+    <!-- Virtual Tour Section -->
+    <section id="tour" class="tour fade-in">
+      <h2>360° Virtual Tour</h2>
+      <p>Step inside and explore the space with our interactive 360° viewer.</p>
+      <div class="tour-container">
+        <!-- We use A‑Frame to embed a 360° scene. The walk‑in closet image
+             serves as an equirectangular texture. Visitors can click and
+             drag to look around inside the space. -->
+        <a-scene embedded>
+          <a-sky src="closet360.jpg" rotation="0 -90 0"></a-sky>
+        </a-scene>
       </div>
     </section>
 
@@ -139,8 +156,14 @@
     <section id="about" class="about fade-in">
       <div class="container about-container">
         <div class="about-text">
-          <h2>About Design Scape</h2>
-          <p> Design Scape Architecture is a Cairo-based studio specializing in architectural rendering, 3D visualization, and interior design. We are passionate about transforming ideas into beautiful, functional spaces—whether for residential or commercial projects. Our team delivers photorealistic visualizations, immersive 360° tours, and tailored design solutions that bring our clients’ visions to life. With a keen eye for detail and a focus on innovation, we strive to exceed expectations and create remarkable, lasting environments.
+          <h2>About Hassan</h2>
+          <p>
+            Hassan Ahmed is an accomplished architect and interior designer based in Cairo,
+            Egypt. Driven by an unwavering passion for creating spaces that seamlessly blend
+            functionality and aesthetics, he has cultivated a reputation for turning ordinary
+            environments into captivating experiences. With a keen eye for detail and a
+            penchant for innovative design solutions, Hassan works closely with clients to
+            translate their visions into beautifully crafted realities.
           </p>
           <p>
             From bespoke residential interiors to ambitious commercial projects, every design
@@ -296,7 +319,8 @@
       <div class="contact-wrapper professional-layout">
         <!-- Image column showcasing an elegant interior -->
         <div class="contact-image">
-          <img src="C:\Users\lashe\Downloads\Telegram Desktop\One bed Room3.jpg" alt="Elegant wardrobe and dressing area designed by Hassan" />
+          <!-- Replaced with an updated walk‑in closet image to freshen the contact section. -->
+          <img src="closet360.jpg" alt="Luxurious walk‑in closet interior" />
           <div class="image-overlay">
             <p>Bring your vision to life with us</p>
           </div>
