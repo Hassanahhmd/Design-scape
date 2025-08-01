@@ -21,6 +21,46 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Dark theme overrides using CSS variables. When the body element has
+   data-theme="dark", these variables will apply automatically. See
+   script.js for the logic that toggles the data attribute. */
+body[data-theme="dark"] {
+  --primary-color: #f5f5f5;
+  --secondary-color: #1d1d1d;
+  --text-color: #e0e0e0;
+  --light-text: #1d1d1d;
+  --accent-color: #80cbc4;
+  --accent-color-dark: #4f9a8a;
+  background-color: #121212;
+  color: var(--text-color);
+}
+
+/* Scroll progress bar at the top of the page */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: var(--accent-color);
+  width: 0;
+  z-index: 1100;
+  transition: width 0.2s ease-out;
+}
+
+/* Theme toggle button styling */
+.theme-toggle {
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  transition: color var(--transition);
+}
+.theme-toggle:hover {
+  color: var(--accent-color);
+}
+
 /* ------------------------------------------------------------------ */
 /* Additional creative enhancements */
 /* Lightbox styles */
@@ -180,6 +220,11 @@ html, body {
   /* Use a gradient to avoid relying on remote images */
   background: linear-gradient(135deg, #1d1d1d 0%, #3a3a3a 100%);
   z-index: 0;
+
+  /* Parallax effect: fix the background so it moves at a different
+     speed than the foreground content, creating depth as visitors
+     scroll【879249934176153†L158-L176】. */
+  background-attachment: fixed;
 }
 .hero-overlay {
   position: absolute;
