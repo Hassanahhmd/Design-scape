@@ -125,4 +125,58 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update weather every hour (3600000 ms)
     setInterval(fetchWeather, 3600000);
   }
+
+  // Lightbox functionality for portfolio images
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox ? lightbox.querySelector('.lightbox-img') : null;
+  const lightboxClose = lightbox ? lightbox.querySelector('.lightbox-close') : null;
+  const galleryImages = document.querySelectorAll('.gallery-item img');
+  if (lightbox && lightboxImg && lightboxClose && galleryImages.length) {
+    galleryImages.forEach((img) => {
+      img.style.cursor = 'pointer';
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.getAttribute('src');
+        lightbox.classList.remove('hidden');
+      });
+    });
+    // Close when clicking close icon
+    lightboxClose.addEventListener('click', () => {
+      lightbox.classList.add('hidden');
+    });
+    // Close when clicking outside the image
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.classList.add('hidden');
+      }
+    });
+  }
+
+  // IntersectionObserver to animate sections on scroll
+  const fadeEls = document.querySelectorAll('.fade-in');
+  if (fadeEls.length) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeEls.forEach((el) => observer.observe(el));
+  }
+
+  // Back to top button functionality
+  const backToTopBtn = document.getElementById('backToTop');
+  if (backToTopBtn) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    });
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 });
