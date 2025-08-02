@@ -1,32 +1,415 @@
-<div class="testimonials-slider">
-    <div class="testimonial">
-        <blockquote>
-            "The service was exceptional and the results exceeded our expectations."
-            <cite>- Client A</cite>
-        </blockquote>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- SEO meta tags -->
+    <meta name="description" content="Design Scape Architecture is a Cairo‑based architecture and interior design studio offering photorealistic 3D visualisation, modelling and immersive virtual tours. Transform your ideas into breathtaking spaces with our tailored design services." />
+    <meta name="keywords" content="architecture, interior design, 3D visualisation, architectural rendering, Cairo, Design Scape Architecture" />
+    <meta property="og:title" content="Design Scape Architecture – Architecture &amp; Interior Design" />
+    <meta property="og:description" content="Cairo‑based architecture and interior design studio creating functional, aesthetic spaces with photorealistic renders and virtual tours." />
+    <meta property="og:type" content="website" />
+    <!-- Open Graph URL updated to the current site -->
+    <meta property="og:url" content="https://hassanahhmd.github.io/Design-scape/" />
+    <meta property="og:image" content="project1.png" />
+    <title>Design Scape Architecture – Architectural Rendering &amp; 3D Visualization</title>
+    <!--
+      This website is inspired by the layout of v‑visualise.com but uses
+      entirely original content and styling. None of the proprietary
+      photographs, text or code from the original site are copied here.  See
+      style.css for most of the visual styling and script.js for minor
+      interactive behaviours.
+    -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      integrity="sha512-Ln8GhTxVUpJhz+06F1SW3ku8s3qZtcL5pf3qKBjWpvLmr2XGvZ3KEc7L/bkqkY4O4j8HfLqyeHC2Rf/wGtfRcw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- A‑Frame library for the 360° virtual tour -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <!-- Scroll progress bar (shows how far down the page you are) -->
+    <div id="scrollProgress" class="scroll-progress"></div>
+    <!-- Header / Navigation -->
+    <header class="header">
+      <div class="container">
+        <div class="logo">
+          <img src="logo.png" alt="Design Scape logo" class="logo-icon" />
+          <div class="logo-title">Design&nbsp;Scape&nbsp;Architecture</div>
+        </div>
+        <!-- Updated navigation anchors to reflect new sections -->
+        <nav class="nav" id="nav">
+          <a href="#portfolio">Portfolio</a>
+          <a href="#services">Services</a>
+          <a href="#about">About</a>
+          <a href="#blog">Blog</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <!-- Display current time and weather in Cairo -->
+        <div class="local-info">
+          <span id="currentTime"></span>
+          <span id="currentWeather"></span>
+        </div>
+        <!-- Toggle between light and dark themes -->
+        <button id="themeToggle" aria-label="Toggle dark mode" class="theme-toggle">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1>
+          Craft&nbsp;<span id="typewriter" class="highlight"></span>
+        </h1>
+        <p>
+          Transform your ideas into stunning visuals with our bespoke architectural rendering
+          and interior design services.
+        </p>
+        <a href="#contact" class="btn">Book a Consultation</a>
+      </div>
+    </section>
+
+    <!-- Virtual Tour Section -->
+    <section id="tour" class="tour fade-in">
+      <h2>360° Virtual Tour</h2>
+      <p>Step inside and explore the space with our interactive 360° viewer.</p>
+        <div class="tour-container">
+          <!-- Embed the 360° tour from Kuula. Visitors can click and drag to explore the space.
+               Using an iframe allows us to display the interactive panorama without copying any
+               proprietary code from the service. -->
+          <iframe
+            src="https://kuula.co/share/51P0j?logo=1&info=1&fs=1&vr=0&zoom=1&autorotate=0.79&thumbs=1&alpha=0.60&inst=0"
+            width="100%"
+            height="500"
+            style="border: none;"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="gallery">
+      <h2>Portfolio</h2>
+      <div class="gallery-grid">
+        <!-- Updated portfolio items showcasing a range of Hassan's projects. Each image
+             has been carefully selected from recent designs to highlight different
+             spaces, from luxurious reception areas to bespoke kitchens and bedrooms. -->
+        <div class="gallery-item">
+          <img src="reception.png" alt="Luxurious reception area with staircase and elegant seating" />
+        </div>
+        <div class="gallery-item">
+          <img src="livingroom2.png" alt="Modern living room with marble flooring and curved sofa" />
+        </div>
+        <div class="gallery-item">
+          <img src="staircase.png" alt="Modern staircase with integrated lighting and indoor plants" />
+        </div>
+        <div class="gallery-item">
+          <img src="kitchen.png" alt="Modern kitchen with marble floors and built‑in appliances" />
+        </div>
+        <div class="gallery-item">
+          <img src="bedroom.png" alt="Bedroom with integrated wardrobe and vanity mirror" />
+        </div>
+      </div>
+      <div class="gallery-cta">
+        <a href="#contact" class="btn-secondary">Start Your Project</a>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services fade-in">
+      <h2>What We Offer</h2>
+      <div class="services-grid">
+        <div class="service-item">
+          <div class="icon"><i class="fa-solid fa-cubes"></i></div>
+          <h3>3D Modeling</h3>
+          <p>
+            High‑fidelity models for interiors, exteriors and products to help you
+            visualise every angle.
+          </p>
+        </div>
+        <div class="service-item">
+          <div class="icon"><i class="fa-solid fa-camera-retro"></i></div>
+          <h3>Photorealistic Rendering</h3>
+          <p>
+            We use industry‑leading software to create lighting and materials
+            that look just like the real world.
+          </p>
+        </div>
+        <div class="service-item">
+          <div class="icon"><i class="fa-solid fa-vr-cardboard"></i></div>
+          <h3>360° Tours</h3>
+          <p>
+            Immerse your clients in a fully interactive virtual walkthrough of
+            your spaces using VR and web‑based tours.
+          </p>
+        </div>
+            <!-- Added new services: Sustainability Consulting -->
+            <div class="service-item">
+              <div class="icon"><i class="fa-solid fa-leaf"></i></div>
+              <h3>Sustainability Consulting</h3>
+              <p>
+                We advise on eco‑friendly materials, energy‑efficient systems and sustainable design strategies to reduce your project’s environmental footprint.
+              </p>
+            </div>
+            <div class="service-item">
+              <div class="icon"><i class="fa-solid fa-gears"></i>
+<h3>BIM &amp; Coordination</h3>
+<p>Clash detection, detailed Revit models and site-phase support keep all disciplines in sync.</p>
+</div><!-- /.service-item -->
+</div><!-- /.services-grid -->
+</section><!-- /#services -->
+
+<!-- About Section -->
+
+    <section id="about" class="about fade-in">
+      <div class="container about-container">
+        <div class="about-text">
+          <h2>About Design Scape</h2>
+          <p>
+            Design&nbsp;Scape is a Cairo‑based studio that turns ideas into built reality. We weave
+            architecture, interior design and urban planning into cohesive experiences—balancing
+            aesthetics, function and sustainability. From expressive façades to finely detailed
+            interiors, every project starts with deep client dialogue, rigorous site analysis and
+            clear 3D visualisation.
+          </p>
+          <p>
+            Our team leverages AutoCAD, Revit, 3ds&nbsp;Max and Corona Renderer to deliver documents
+            that contractors trust and renders that win approvals fast. Whether it’s a boutique
+            café, a family apartment or a mixed‑use development, Design&nbsp;Scape manages the full
+            journey: concept, technical drawings, permitting, supervision and post‑handover
+            support. The result: spaces that feel effortless, perform brilliantly and elevate
+            daily life—proof that smart design shapes a better future.
+          </p>
+        </div>
+        <div class="about-image">
+          <!-- Use a realistic interior photo to represent Design Scape’s portfolio. -->
+          <img src="project3.png" alt="Modern interior designed by Design Scape" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Process / Steps Section -->
+    <section id="process" class="process fade-in">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon"><i class="fa-solid fa-comments"></i></div>
+          <h4>Contact &amp; Share</h4>
+          <p>Tell us about your project and share your ideas.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon"><i class="fa-solid fa-file-contract"></i></div>
+          <h4>Proposal &amp; Payment</h4>
+          <p>We send you a proposal and begin when you’re ready.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon"><i class="fa-solid fa-pencil-ruler"></i></div>
+          <h4>Design Drafts</h4>
+          <p>We craft preliminary renders and adjust based on your feedback.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon"><i class="fa-solid fa-check-double"></i></div>
+          <h4>Finalisation &amp; Images</h4>
+          <p>Once approved, we deliver final high‑resolution images.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon"><i class="fa-solid fa-truck"></i></div>
+          <h4>Delivery</h4>
+          <p>Receive your deliverables via secure download links.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon"><i class="fa-solid fa-comments-dollar"></i></div>
+          <h4>Feedback</h4>
+          <p>Your satisfaction matters – tell us how we did.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials fade-in">
+      <h2>What Clients Say</h2>
+      <div class="testimonial-slider">
+        <div class="testimonial">
+          <div class="stars">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p>
+            “Design&nbsp;Scape&nbsp;Architecture transformed our floor plans into stunning imagery.
+            They were responsive and their attention to detail was impeccable.”
+          </p>
+          <h5>— Nour, Interior&nbsp;Designer</h5>
+        </div>
+        <div class="testimonial">
+          <div class="stars">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star-half-stroke"></i>
+          </div>
+          <p>
+            “Our real estate marketing skyrocketed thanks to their 360° tours.
+            Clients love being able to explore properties remotely.”
+          </p>
+          <h5>— Omar, Real&nbsp;estate&nbsp;developer</h5>
+        </div>
+        <div class="testimonial">
+          <div class="stars">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p>
+            “The team delivered ahead of schedule and helped us impress our
+            investors. We will definitely work with them again.”
+          </p>
+          <h5>— Sara, Architect</h5>
+        </div>
+      </div>
+      <div class="testimonial-controls">
+        <button id="prevTestimonial" aria-label="Previous testimonial">
+          <i class="fa-solid fa-angle-left"></i>
+        </button>
+        <button id="nextTestimonial" aria-label="Next testimonial">
+          <i class="fa-solid fa-angle-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="blog fade-in">
+      <div class="container">
+        <h2>Blog &amp; Insights</h2>
+        <div class="blog-grid">
+          <article class="blog-post">
+            <h3>Designing for the Future: Responsive Architecture</h3>
+            <p class="blog-meta">June 15, 2025</p>
+            <p>
+              How do modern architects adapt their designs to a rapidly changing
+              digital world? Explore the principles of responsive web design and how
+              they relate to architectural practices.
+            </p>
+            <a href="#" class="btn-secondary">Read More</a>
+          </article>
+          <article class="blog-post">
+            <h3>Sustainability in Urban Spaces</h3>
+            <p class="blog-meta">May 2, 2025</p>
+            <p>
+              Sustainable design is more than a trend—it's a necessity. Discover
+              strategies to incorporate eco‑friendly materials and energy‑efficient
+              solutions into your next project.
+            </p>
+            <a href="#" class="btn-secondary">Read More</a>
+          </article>
+          <article class="blog-post">
+            <h3>Visualising Ideas: The Power of 3D Rendering</h3>
+            <p class="blog-meta">March 20, 2025</p>
+            <p>
+              Photorealistic renders bridge the gap between imagination and reality.
+              Learn how 3D visualisation can elevate client presentations and streamline
+              the design process.
+            </p>
+            <a href="#" class="btn-secondary">Read More</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact professional fade-in">
+      <h2>Let's Visualise It</h2>
+      <div class="contact-wrapper professional-layout">
+        <!-- Image column showcasing an elegant interior -->
+        <div class="contact-image">
+          <!-- Replaced with an updated walk‑in closet image to freshen the contact section. -->
+          <img src="closet360.jpg" alt="Luxurious walk‑in closet interior" />
+          <div class="image-overlay">
+            <p>Bring your vision to life with us</p>
+          </div>
+        </div>
+        <!-- Card column with form and contact info -->
+        <div class="contact-card">
+          <!-- Professional contact form with drop‑down for reason of enquiry -->
+          <form class="contact-form" id="contactForm">
+            <div class="form-group">
+              <input type="text" id="name" name="name" placeholder="Your name*" required />
+            </div>
+            <div class="form-group">
+              <input type="text" id="company" name="company" placeholder="Your company name" />
+            </div>
+            <div class="form-group">
+              <input type="email" id="email" name="email" placeholder="Your email address*" required />
+            </div>
+            <div class="form-group full-width">
+              <textarea id="message" name="message" placeholder="Enter your message*" rows="5" required></textarea>
+            </div>
+            <div class="form-group full-width">
+              <select id="reason" name="reason" required>
+                <option value="" disabled selected>-- Select an option --</option>
+                <option value="quote">Request a Quote</option>
+                <option value="general">General Enquiry</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <button type="submit" class="btn">Submit</button>
+          </form>
+          <!-- Contact details moved below the form for a cleaner look -->
+          <div class="contact-info">
+            <p><i class="fa-solid fa-phone"></i>&nbsp;+201096978258</p>
+            <p><i class="fa-solid fa-envelope"></i>&nbsp;Hassanua4@gmail.com</p>
+            <p><i class="fa-solid fa-map-marker-alt"></i>&nbsp;Cairo, Egypt</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-logo">Design&nbsp;Scape&nbsp;Architecture</div>
+        <div class="footer-nav">
+          <a href="#portfolio">Portfolio</a>
+          <a href="#services">Services</a>
+          <a href="#about">About</a>
+          <a href="#blog">Blog</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <p class="copyright">&copy; <span id="year"></span> Design Scape Architecture. All rights reserved.</p>
+        <div class="footer-social">
+          <a href="https://linkedin.com/in/hassanua" aria-label="LinkedIn profile"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="https://instagram.com/hassanua" aria-label="Instagram profile"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Lightbox for viewing portfolio images in full size -->
+    <div id="lightbox" class="lightbox hidden">
+      <span class="lightbox-close">&times;</span>
+      <img class="lightbox-img" src="" alt="Expanded portfolio image" />
     </div>
-    <div class="testimonial">
-        <blockquote>
-            "A fantastic experience from start to finish."
-            <cite>- Client B</cite>
-        </blockquote>
-    </div>
-    <div class="testimonial">
-        <blockquote>
-            "Highly recommend! Professional and efficient."
-            <cite>- Client C</cite>
-        </blockquote>
-    </div>
-    <div class="testimonial">
-        <blockquote>
-            "Truly a game changer for our business."
-            <cite>- Client D</cite>
-        </blockquote>
-    </div>
-    <div class="testimonial">
-        <blockquote>
-            "We couldn't be happier with the outcome!"
-            <cite>- Client E</cite>
-        </blockquote>
-    </div>
-</div>
+
+    <!-- Back to top button -->
+    <button id="backToTop" aria-label="Back to top">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+  </body>
+</html>
