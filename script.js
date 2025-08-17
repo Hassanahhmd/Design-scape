@@ -1,257 +1,289 @@
 // script.js
-// Minor interactive behaviours for the Design Scape Architecture site.
+// Responsive & accessible behaviours for the Design Scape Architecture site.
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialise testimonial slider
-  const testimonials = document.querySelectorAll('.testimonial');
-  const prevBtn = document.getElementById('prevTestimonial');
-  const nextBtn = document.getElementById('nextTestimonial');
+  // ======= Helpers =======
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => r.querySelectorAll(s);
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const isRmf = () => prefersReducedMotion.matches;
+
+  // rAF throttle for scroll/resize
+  const rafThrottle = (fn) => {
+    let ticking = false;
+    return (...args) => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          fn(...args);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+  };
+
+  // ======= Testimonial slider (touch + keyboard + responsive) =======
+  const testimonials = $$('.testimonial');
+  const prevBtn = $('#prevTestimonial');
+  const nextBtn = $('#nextTestimonial');
+  const sliderRegion = $('#testimonialRegion') || prevBtn?.closest('[role="region"]') || document.body;
   let currentIndex = 0;
 
   function showTestimonial(index) {
+    if (!testimonials.length) return;
+    currentIndex = (index + testimonials.length) % testimonials.length;
     testimonials.forEach((t, i) => {
-      t.classList.toggle('active', i === index);
+      const active = i === currentIndex;
+      t.classList.toggle('active', active);
+      t.setAttribute('aria-hidden', active ? 'false' : 'true');
+      // For responsiveness: ensure height adapts smoothly
+      if (active) {
+        t.parentElement.style.height = t.offsetHeight + 'px';
+      }
     });
+    // Update aria-live text if present
+    const live = $('#testimonialAnnouncer');
+    if (live) {
+      live.textContent = `Showing testimonial ${currentIndex + 1} of ${testimonials.length}`;
+    }
   }
 
-  function showPrev() {
-    currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+  function showPrev() { showTestimonial(currentIndex - 1); }
+  function showNext() { showTestimonial(currentIndex + 1); }
+
+  if (prevBtn && nextBtn && testimonials.length) {
+    prevBtn.addEventListener('click', showPrev, { passive: true });
+    nextBtn.addEventListener('click', showNext, { passive: true });
+
+    // Keyboard support on the region
+    sliderRegion.setAttribute('tabindex', '0');
+    sliderRegion.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') showPrev();
+      if (e.key === 'ArrowRight') showNext();
+    });
+
+    // Touch/swipe (mobile)
+    let startX = 0, startY = 0, isSwiping = false;
+    const threshold = 30; // px
+    const area = sliderRegion;
+
+    area.addEventListener('touchstart', (e) => {
+      const t = e.changedTouches[0];
+      startX = t.clientX; startY = t.clientY; isSwiping = true;
+    }, { passive: true });
+
+    area.addEventListener('touchmove', (e) => {
+      // If vertical move is dominant, cancel swipe to allow scroll
+      if (!isSwiping) return;
+      const t = e.changedTouches[0];
+      if (Math.abs(t.clientY - startY) > Math.abs(t.clientX - startX)) {
+        isSwiping = false;
+      }
+    }, { passive: true });
+
+    area.addEventListener('touchend', (e) => {
+      if (!isSwiping) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      if (dx > threshold) showPrev();
+      if (dx < -threshold) showNext();
+      isSwiping = false;
+    }, { passive: true });
+
+    // Resize: keep container height matching active slide
+    const onResize = rafThrottle(() => showTestimonial(currentIndex));
+    window.addEventListener('resize', onResize);
+
+    // Auto-advance (skip if reduced motion)
+    if (!isRmf()) {
+      let timer = setInterval(showNext, 6000);
+      // Pause on hover/focus for accessibility
+      const pause = () => { clearInterval(timer); };
+      const resume = () => { if (!isRmf()) timer = setInterval(showNext, 6000); };
+      area.addEventListener('mouseenter', pause);
+      area.addEventListener('mouseleave', resume);
+      area.addEventListener('focusin', pause);
+      area.addEventListener('focusout', resume);
+    }
+
+    // Init
     showTestimonial(currentIndex);
   }
 
-  function showNext() {
-    currentIndex = (currentIndex + 1) % testimonials.length;
-    showTestimonial(currentIndex);
-  }
+  // ======= Footer year =======
+  const yearEl = $('#year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // Attach event listeners
-  if (prevBtn && nextBtn) {
-    prevBtn.addEventListener('click', showPrev);
-    nextBtn.addEventListener('click', showNext);
-  }
-
-  // Show first testimonial by default
-  if (testimonials.length) {
-    showTestimonial(currentIndex);
-  }
-
-  // Update footer year
-  const yearEl = document.getElementById('year');
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
-  }
-
-  // Handle contact form submission
-  const form = document.getElementById('contactForm');
+  // ======= Contact form (robust mailto) =======
+  const form = $('#contactForm');
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      // Gather form data and compose an email using mailto. Encode to ensure special characters
-      const name = encodeURIComponent(form.name.value);
-      const company = encodeURIComponent(form.company.value);
-      const email = encodeURIComponent(form.email.value);
-      const message = encodeURIComponent(form.message.value);
-      // Retrieve the selected reason from the drop‑down list. If none selected, default to empty string.
-      const reason = encodeURIComponent(form.reason?.value || '');
-      const subject = encodeURIComponent(`New enquiry from ${form.name.value}`);
-      const body = `Name: ${name}%0D%0ACompany: ${company}%0D%0AEmail: ${email}%0D%0AReason: ${reason}%0D%0A%0D%0A${message}`;
-      // Redirect to mailto link; this opens the user's mail client with prefilled data
+      const get = (n) => encodeURIComponent((form[n]?.value || '').trim());
+      const name = get('name');
+      const company = get('company');
+      const email = get('email');
+      const message = get('message');
+      const reason = get('reason');
+      const subject = encodeURIComponent(`New enquiry from ${decodeURIComponent(name) || 'Website visitor'}`);
+      const body =
+        `Name: ${name}%0D%0ACompany: ${company}%0D%0AEmail: ${email}%0D%0AReason: ${reason}%0D%0A%0D%0A${message}`;
       window.location.href = `mailto:Hassanua4@gmail.com?subject=${subject}&body=${body}`;
     });
   }
 
-  // Show current time in Cairo and fetch current weather
-  const timeEl = document.getElementById('currentTime');
-  const weatherEl = document.getElementById('currentWeather');
-  // Only execute if elements exist
-  if (timeEl && weatherEl) {
-    function updateTime() {
+  // ======= Cairo time & weather (respect reduced motion) =======
+  const timeEl = $('#currentTime');
+  const weatherEl = $('#currentWeather');
+
+  if (timeEl) {
+    const updateTime = () => {
       const now = new Date();
-      const options = {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-        timeZone: 'Africa/Cairo'
-      };
-      timeEl.textContent = new Intl.DateTimeFormat('en-US', options).format(now);
-    }
-    updateTime();
-    setInterval(updateTime, 1000);
-
-    // Map weather codes from Open-Meteo to simple descriptions
-    const weatherDescriptions = {
-      0: 'Clear',
-      1: 'Mainly clear',
-      2: 'Partly cloudy',
-      3: 'Overcast',
-      45: 'Fog',
-      48: 'Foggy',
-      51: 'Drizzle',
-      53: 'Drizzle',
-      55: 'Heavy drizzle',
-      56: 'Freezing drizzle',
-      57: 'Freezing drizzle',
-      61: 'Rain',
-      63: 'Rain',
-      65: 'Heavy rain',
-      71: 'Snow',
-      73: 'Snow',
-      75: 'Heavy snow',
-      95: 'Thunderstorm'
+      timeEl.textContent = new Intl.DateTimeFormat('en-US', {
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false, timeZone: 'Africa/Cairo'
+      }).format(now);
     };
-
-    function fetchWeather() {
-      const lat = 30.0444;
-      const lon = 31.2357;
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          const current = data.current_weather;
-          if (!current) return;
-          const temp = current.temperature;
-          const code = current.weathercode;
-          const desc = weatherDescriptions[code] || '';
-          // Compose weather string, e.g. "30°C Clear"
-          weatherEl.textContent = `${Math.round(temp)}°C ${desc}`;
-        })
-        .catch((err) => {
-          console.error('Weather fetch error', err);
-          weatherEl.textContent = '';
-        });
-    }
-    fetchWeather();
-    // Update weather every hour (3600000 ms)
-    setInterval(fetchWeather, 3600000);
+    updateTime();
+    const timeInterval = setInterval(updateTime, 1000);
+    if (isRmf()) { clearInterval(timeInterval); updateTime(); }
   }
 
-  // Lightbox functionality for portfolio images
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = lightbox ? lightbox.querySelector('.lightbox-img') : null;
-  const lightboxClose = lightbox ? lightbox.querySelector('.lightbox-close') : null;
-  const galleryImages = document.querySelectorAll('.gallery-item img');
+  if (weatherEl) {
+    const weatherDescriptions = {
+      0: 'Clear', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
+      45: 'Fog', 48: 'Foggy', 51: 'Drizzle', 53: 'Drizzle', 55: 'Heavy drizzle',
+      56: 'Freezing drizzle', 57: 'Freezing drizzle', 61: 'Rain', 63: 'Rain',
+      65: 'Heavy rain', 71: 'Snow', 73: 'Snow', 75: 'Heavy snow', 95: 'Thunderstorm'
+    };
+    const fetchWeather = () => {
+      const lat = 30.0444, lon = 31.2357;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+      fetch(url)
+        .then((r) => r.json())
+        .then((data) => {
+          const c = data.current_weather;
+          if (!c) return;
+          const temp = Math.round(c.temperature);
+          const desc = weatherDescriptions[c.weathercode] || '';
+          weatherEl.textContent = `${temp}°C ${desc}`;
+        })
+        .catch(() => { weatherEl.textContent = ''; });
+    };
+    fetchWeather();
+    const wTimer = setInterval(fetchWeather, 3600000);
+    if (isRmf()) clearInterval(wTimer);
+  }
+
+  // ======= Lightbox (esc to close + click outside) =======
+  const lightbox = $('#lightbox');
+  const lightboxImg = lightbox ? $('.lightbox-img', lightbox) : null;
+  const lightboxClose = lightbox ? $('.lightbox-close', lightbox) : null;
+  const galleryImages = $$('.gallery-item img');
+
   if (lightbox && lightboxImg && lightboxClose && galleryImages.length) {
     galleryImages.forEach((img) => {
       img.style.cursor = 'pointer';
       img.addEventListener('click', () => {
-        lightboxImg.src = img.getAttribute('src');
+        const src = img.getAttribute('src');
+        if (!src) return;
+        lightboxImg.src = src;
         lightbox.classList.remove('hidden');
-      });
+        lightbox.setAttribute('aria-hidden', 'false');
+        lightboxClose.focus();
+        document.body.style.overflow = 'hidden'; // prevent scroll on mobile
+      }, { passive: true });
     });
-    // Close when clicking close icon
-    lightboxClose.addEventListener('click', () => {
+
+    const closeLb = () => {
       lightbox.classList.add('hidden');
-    });
-    // Close when clicking outside the image
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
-        lightbox.classList.add('hidden');
-      }
-    });
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    lightboxClose.addEventListener('click', closeLb);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLb(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLb(); });
   }
 
-  // IntersectionObserver to animate sections on scroll
-  const fadeEls = document.querySelectorAll('.fade-in');
-  if (fadeEls.length) {
-    const observer = new IntersectionObserver((entries, obs) => {
+  // ======= Scroll reveal (IntersectionObserver) =======
+  const fadeEls = $$('.fade-in');
+  if (fadeEls.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries, obs) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
           obs.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
-    fadeEls.forEach((el) => observer.observe(el));
+    }, { threshold: 0.1, rootMargin: '80px 0px' });
+    fadeEls.forEach((el) => io.observe(el));
   }
 
-  // Back to top button functionality
-  const backToTopBtn = document.getElementById('backToTop');
-  if (backToTopBtn) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 400) {
-        backToTopBtn.classList.add('show');
-      } else {
-        backToTopBtn.classList.remove('show');
-      }
-    });
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
+  // ======= Back to top + Scroll progress (rAF for smoothness) =======
+  const backToTopBtn = $('#backToTop');
+  const scrollProgress = $('#scrollProgress');
 
-  // Scroll progress bar: update width based on scroll position
-  const scrollProgress = document.getElementById('scrollProgress');
-  if (scrollProgress) {
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY;
+  const onScroll = rafThrottle(() => {
+    const y = window.scrollY;
+    if (backToTopBtn) backToTopBtn.classList.toggle('show', y > 400);
+    if (scrollProgress) {
       const docHeight = document.documentElement.scrollHeight;
       const winHeight = window.innerHeight;
-      const scrollable = docHeight - winHeight;
-      const progress = scrollable > 0 ? (scrollTop / scrollable) * 100 : 0;
+      const scrollable = Math.max(docHeight - winHeight, 1);
+      const progress = (y / scrollable) * 100;
       scrollProgress.style.width = `${progress}%`;
+    }
+  });
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: isRmf() ? 'auto' : 'smooth' });
     });
   }
 
-  // Dark mode toggle: persist user preference and toggle data-theme
-  const themeToggle = document.getElementById('themeToggle');
+  // ======= Dark mode toggle (respect system by default) =======
+  const themeToggle = $('#themeToggle');
   const body = document.body;
-  if (themeToggle) {
-    // Load theme preference from localStorage
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      body.setAttribute('data-theme', savedTheme);
-      // Update icon to reflect current theme
-      themeToggle.querySelector('i').classList.toggle('fa-moon', savedTheme !== 'dark');
-      themeToggle.querySelector('i').classList.toggle('fa-sun', savedTheme === 'dark');
+
+  const applyTheme = (theme) => {
+    body.setAttribute('data-theme', theme);
+    const icon = themeToggle?.querySelector('i');
+    if (icon) {
+      icon.classList.toggle('fa-sun', theme === 'dark');
+      icon.classList.toggle('fa-moon', theme !== 'dark');
     }
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = body.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      body.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      // Toggle icon classes
-      const icon = themeToggle.querySelector('i');
-      if (newTheme === 'dark') {
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-      } else {
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
-      }
-    });
+    localStorage.setItem('theme', theme);
+  };
+
+  // Initialize theme: saved -> system -> light
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    body.setAttribute('data-theme', savedTheme);
+  } else {
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    body.setAttribute('data-theme', systemDark ? 'dark' : 'light');
   }
 
-  // Typewriter effect for hero tagline
-  const typewriterEl = document.getElementById('typewriter');
-  if (typewriterEl) {
-    const words = [
-      'Inspiring Spaces',
-      'Innovative Designs',
-      'Immersive Experiences'
-    ];
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-
-    function type() {
-      const currentWord = words[wordIndex];
-      const visibleText = isDeleting
-        ? currentWord.substring(0, charIndex--)
-        : currentWord.substring(0, charIndex++);
-      typewriterEl.textContent = visibleText;
-      const baseDelay = 120;
-      let timeout = isDeleting ? baseDelay / 2 : baseDelay;
-      if (!isDeleting && charIndex === currentWord.length) {
-        timeout = 2000; // Pause before deleting
-        isDeleting = true;
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        wordIndex = (wordIndex + 1) % words.length;
-        timeout = 500;
-      }
-      setTimeout(type, timeout);
+  if (themeToggle) {
+    // Sync icon initially
+    const currentTheme = body.getAttribute('data-theme');
+    const icon = themeToggle.querySelector('i');
+    if (icon) {
+      icon.classList.toggle('fa-sun', currentTheme === 'dark');
+      icon.classList.toggle('fa-moon', currentTheme !== 'dark');
     }
-    type();
+
+    themeToggle.addEventListener('click', () => {
+      const t = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(t);
+    });
+
+    // Follow system changes if user hasn’t explicitly saved a choice
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) applyTheme(e.matches ? 'dark' : 'light');
+    });
   }
 });
